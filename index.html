@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ansab Khalid - Portfolio Chat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'wa-dark': '#0b141a',
+                        'wa-darker': '#111b21',
+                        'wa-sidebar': '#202c33',
+                        'wa-chat': '#0b141a',
+                        'wa-message-out': '#005c4b',
+                        'wa-message-in': '#202c33',
+                        'wa-text': '#e9edef',
+                        'wa-text-secondary': '#8696a0',
+                        'wa-border': '#313d45',
+                        'wa-hover': '#2a3942'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-wa-dark text-wa-text font-sans overflow-hidden">
+    <!-- AI Setup Modal -->
+    <div id="aiSetupModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-wa-sidebar p-6 rounded-lg max-w-md mx-4">
+            <h3 class="text-xl font-bold mb-4 text-wa-text">Enhanced AI Chat Setup</h3>
+            <p class="text-wa-text-secondary mb-4">Choose your AI provider for intelligent responses:</p>
+            
+            <div class="space-y-3 mb-4">
+                <label class="flex items-center space-x-3 p-3 bg-wa-darker rounded cursor-pointer hover:bg-wa-hover transition-colors">
+                    <input type="radio" name="aiProvider" value="groq" class="text-green-400 focus:ring-green-400">
+                    <div>
+                        <div class="font-medium text-wa-text">Groq API (Recommended)</div>
+                        <div class="text-sm text-wa-text-secondary">Fast, free, and very intelligent responses</div>
+                    </div>
+                </label>
+                
+                <label class="flex items-center space-x-3 p-3 bg-wa-darker rounded cursor-pointer hover:bg-wa-hover transition-colors">
+                    <input type="radio" name="aiProvider" value="huggingface" class="text-green-400 focus:ring-green-400">
+                    <div>
+                        <div class="font-medium text-wa-text">Hugging Face</div>
+                        <div class="text-sm text-wa-text-secondary">Good for general conversations</div>
+                    </div>
+                </label>
+                
+                <label class="flex items-center space-x-3 p-3 bg-wa-darker rounded cursor-pointer hover:bg-wa-hover transition-colors">
+                    <input type="radio" name="aiProvider" value="enhanced" class="text-green-400 focus:ring-green-400" checked>
+                    <div>
+                        <div class="font-medium text-wa-text">Enhanced Local AI (Default)</div>
+                        <div class="text-sm text-wa-text-secondary">Advanced context-aware responses, no API needed</div>
+                    </div>
+                </label>
+            </div>
+            <div id="apiKeySection" class="mb-4" style="display: none;">
+                <input type="password" id="apiTokenInput" placeholder="Enter your API key" 
+                       class="w-full bg-wa-darker text-wa-text rounded px-3 py-2 mb-2 border border-wa-border focus:outline-none focus:border-green-400">
+                <div id="apiInstructions" class="text-sm text-wa-text-secondary space-y-1">
+                    <!-- Instructions will be inserted here -->
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <button id="saveToken" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors">Setup AI</button>
+                <button id="skipAI" class="bg-wa-border text-wa-text px-4 py-2 rounded hover:bg-wa-hover transition-colors">Continue Without AI</button>
+            </div>
+        </div>
+    </div>
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-1/3 bg-wa-sidebar border-r border-wa-border flex flex-col">
+            <!-- Header -->
+            <div class="p-4 bg-wa-sidebar border-b border-wa-border flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <img src="/image.jpg" 
+                         alt="Profile" class="w-10 h-10 rounded-full">
+                    <span class="font-medium">Ansab Khalid</span>
+                </div>
+                <div class="flex space-x-2 text-wa-text-secondary">
+                    <i id="aiStatusIcon" class="fas fa-robot cursor-pointer hover:text-wa-text transition-colors" title="AI Status"></i>
+                    <i class="fas fa-circle-notch cursor-pointer hover:text-wa-text transition-colors"></i>
+                    <i class="fas fa-message cursor-pointer hover:text-wa-text transition-colors"></i>
+                    <i class="fas fa-ellipsis-vertical cursor-pointer hover:text-wa-text transition-colors"></i>
+                </div>
+            </div>
+            <!-- Search -->
+            <div class="p-3 bg-wa-sidebar">
+                <div class="relative">
+                    <input type="text" placeholder="Search or start new chat" 
+                           class="w-full bg-wa-darker text-wa-text rounded-lg pl-12 pr-4 py-2 focus:outline-none focus:bg-wa-chat border border-wa-border focus:border-green-400 transition-colors">
+                    <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-wa-text-secondary"></i>
+                </div>
+            </div>
+            <!-- Chat List -->
+            <div class="flex-1 overflow-y-auto">
+                <div class="chat-item bg-wa-hover border-l-4 border-green-400 p-4 cursor-pointer hover:bg-wa-hover transition-colors" data-chat="about">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
+                            <i class="fas fa-user text-white"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center">
+                                <h3 class="font-medium text-wa-text">About Me</h3>
+                                <span class="text-xs text-wa-text-secondary">2:30 PM</span>
+                            </div>
+                            <p class="text-sm text-wa-text-secondary truncate">Full Stack Laravel Developer</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-item p-4 cursor-pointer hover:bg-wa-hover transition-colors" data-chat="skills">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center">
+                            <i class="fas fa-code text-white"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center">
+                                <h3 class="font-medium text-wa-text">Technical Skills</h3>
+                                <span class="text-xs text-wa-text-secondary">2:25 PM</span>
+                            </div>
+                            <p class="text-sm text-wa-text-secondary truncate">PHP, Laravel, Vue.js, MySQL, WordPress...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-item p-4 cursor-pointer hover:bg-wa-hover transition-colors" data-chat="projects">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
+                            <i class="fas fa-folder text-white"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center">
+                                <h3 class="font-medium text-wa-text">My Projects</h3>
+                                <span class="text-xs text-wa-text-secondary">2:20 PM</span>
+                            </div>
+                            <p class="text-sm text-wa-text-secondary truncate">Service Owl, Money Maker, Patient Portal...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-item p-4 cursor-pointer hover:bg-wa-hover transition-colors" data-chat="experience">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 bg-orange-600 rounded-full flex items-center justify-center">
+                            <i class="fas fa-briefcase text-white"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center">
+                                <h3 class="font-medium text-wa-text">Work Experience</h3>
+                                <span class="text-xs text-wa-text-secondary">2:15 PM</span>
+                            </div>
+                            <p class="text-sm text-wa-text-secondary truncate">Maqware Solutions, Pacslink Corporation</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-item p-4 cursor-pointer hover:bg-wa-hover transition-colors" data-chat="contact">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center">
+                            <i class="fas fa-envelope text-white"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center">
+                                <h3 class="font-medium text-wa-text">Contact Me</h3>
+                                <span class="text-xs text-wa-text-secondary">2:10 PM</span>
+                            </div>
+                            <p class="text-sm text-wa-text-secondary truncate">Let's get in touch!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Chat Area -->
+        <div class="flex-1 flex flex-col bg-wa-chat">
+            <!-- Chat Header -->
+            <div id="chat-header" class="p-4 bg-wa-sidebar border-b border-wa-border flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div id="chat-avatar" class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-user text-white"></i>
+                    </div>
+                    <div>
+                        <h3 id="chat-title" class="font-medium">About Me</h3>
+                        <p id="chat-status" class="text-xs text-green-400">online</p>
+                    </div>
+                </div>
+                <div class="flex space-x-4 text-wa-text-secondary">
+                    <i class="fas fa-search cursor-pointer hover:text-wa-text transition-colors"></i>
+                    <i class="fas fa-ellipsis-vertical cursor-pointer hover:text-wa-text transition-colors"></i>
+                </div>
+            </div>
+            <!-- Messages -->
+            <div id="messages" class="flex-1 overflow-y-auto p-6 space-y-4" style="background-image: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><defs><pattern id=\"grain\" width=\"100\" height=\"100\" patternUnits=\"userSpaceOnUse\"><circle cx=\"50\" cy=\"50\" r=\"0.5\" fill=\"%23ffffff\" opacity=\"0.02\"/></pattern></defs><rect width=\"100\" height=\"100\" fill=\"url(%23grain)\"/></svg>'); background-attachment: fixed; background-size: 100px 100px;">
+                <!-- Messages will be inserted here -->
+            </div>
+            <!-- Message Input -->
+            <div class="p-4 bg-wa-sidebar border-t border-wa-border">
+                <div class="flex items-center space-x-4">
+                    <i class="fas fa-face-smile text-wa-text-secondary cursor-pointer hover:text-wa-text transition-colors"></i>
+                    <i class="fas fa-paperclip text-wa-text-secondary cursor-pointer hover:text-wa-text transition-colors"></i>
+                    <input id="message-input" type="text" placeholder="Ask me anything about my work..." 
+                           class="flex-1 bg-wa-darker text-wa-text rounded-lg px-4 py-2 focus:outline-none border border-wa-border focus:border-green-400 transition-colors">
+                    <i id="send-btn" class="fas fa-paper-plane text-wa-text-secondary cursor-pointer hover:text-green-400 transition-colors"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Configuration - Updated with Ansab Khalid's details
+        const CONFIG = {
+            name: 'Ansab Khalid',
+            email: 'ansab.khalid444@gmail.com',
+            linkedin: 'https://linkedin.com/in/Ansab-Khalid',
+            github: 'https://github.com/AnsabKhalid',
+            phone: '+923164990917',
+            location: 'Lahore, Pakistan',
+            yearsOfExperience: '2+',
+            title: 'Full Stack Laravel Developer',
+            education: 'BS. Computer Science (2018-2022) - Government College University Faisalabad'
+        };
+        let aiEnabled = false;
+        let aiProvider = 'enhanced';
+        let apiToken = null;
+        let currentChat = 'about';
+        let messageIndex = 0;
+        let isTyping = false;
+        let conversationHistory = [];
+        const chatData = {
+            about: {
+                title: 'About Me',
+                avatar: 'fa-user',
+                color: 'bg-blue-600',
+                context: `I am ${CONFIG.name}, a passionate ${CONFIG.title} with ${CONFIG.yearsOfExperience} years of experience based in ${CONFIG.location}. I specialize in Laravel, Vue.js, WordPress, and building scalable web applications. I have a strong background in web application development and a proven track record of delivering high-quality, scalable solutions with various payment integrations and modern web technologies.`,
+                messages: [
+                    { type: 'in', content: 'Hi there! 👋', time: '2:30 PM' },
+                    { type: 'in', content: `I'm ${CONFIG.name}, a ${CONFIG.title} with ${CONFIG.yearsOfExperience} years of experience building modern web applications.`, time: '2:30 PM' },
+                    { type: 'in', content: 'I specialize in Laravel, Vue.js, WordPress, and creating scalable web solutions with clean, efficient code.', time: '2:31 PM' },
+                    { type: 'in', content: 'I graduated from Government College University Faisalabad with a BS in Computer Science in 2022.', time: '2:31 PM' },
+                    { type: 'in', content: 'Feel free to ask me about my projects, technical skills, or work experience! 🚀', time: '2:32 PM' }
+                ]
+            },
+            skills: {
+                title: 'Technical Skills',
+                avatar: 'fa-code',
+                color: 'bg-purple-600',
+                context: 'My technical skills include PHP, Laravel, Laravel Nova, Vue.js, Nuxt.js, HTML, CSS, Tailwind, Bootstrap, MySQL, Git Version Control, RESTful APIs, Postman, WordPress, jQuery, AJAX, and various payment integrations including AlFatoorah, Stripe, and PayPal. I also have experience with Cloudflare Turnstile for CAPTCHA implementation and DXF file conversion. I have a strong foundation in Laravel core principles and tools, and I specialize in API integration and building RESTful APIs.',
+                messages: [
+                    { type: 'in', content: 'Here are my core technical skills:', time: '2:25 PM' },
+                    { type: 'in', content: '💻 Backend: PHP, Laravel, Laravel Nova, RESTful APIs, WordPress', time: '2:25 PM' },
+                    { type: 'in', content: '🎨 Frontend: Vue.js, Nuxt.js, HTML, CSS, Tailwind, Bootstrap, jQuery, AJAX', time: '2:26 PM' },
+                    { type: 'in', content: '🗄️ Database: MySQL', time: '2:26 PM' },
+                    { type: 'in', content: '🛠️ Tools: Git Version Control, Postman, Cloudflare Turnstile', time: '2:27 PM' },
+                    { type: 'in', content: '💳 Payment Integration: AlFatoorah, Stripe, PayPal, multiple payment gateways', time: '2:27 PM' },
+                    { type: 'in', content: '🔧 Additional: DXF File Conversion, CAPTCHA implementation, WordPress customization', time: '2:28 PM' },
+                    { type: 'in', content: 'I have a strong foundation in Laravel core principles and tools, and I specialize in API integration and building RESTful APIs. Ask me about any specific technology! 🤔', time: '2:29 PM' }
+                ]
+            },
+            projects: {
+                title: 'My Projects',
+                avatar: 'fa-folder',
+                color: 'bg-green-600',
+                context: 'I have built several impressive projects including Service Owl (a platform connecting clients and candidates with agencies), Money Maker (a content protection tool), Invoice Owl (an invoice generation tool), Aby Chalet (a guest house booking system), SMS-AI (a student management system with AI), Dulhansdiary (a custom PHP-based eCommerce platform), Patient Portal (Laravel-based healthcare system), Harold\'s List with Cloudflare Turnstile integration, DXF File Converter, and Lahinch Limos (WordPress car rental website).',
+                messages: [
+                    { type: 'in', content: 'Here are some of my recent projects:', time: '2:20 PM' },
+                    { 
+                        type: 'in', 
+                        content: '🦉 Service Owl\nSoftware platform connecting clients and candidates with agencies through automated workflows and dynamic scheduling.\n\n• Personalized dashboards with secure permissions\n• Shift and service management\n• Role-based access for admin, client, and nanny users', 
+                        time: '2:20 PM',
+                        clickable: 'https://www.serviceowl.ca/'
+                    },
+                    { 
+                        type: 'in', 
+                        content: '💰 Money Maker\nHelps content creators secure and control access to their content with advanced protection tools.\n\n• Emulator detection and VPN blocking\n• Geo-targeting capabilities\n• Offer-based content unlocking system', 
+                        time: '2:21 PM',
+                        clickable: 'http://themoneymaker.xyz/'
+                    },
+                    { 
+                        type: 'in', 
+                        content: '🧾 Invoice Owl\nInvoice generation tool designed to facilitate expense tracking and profit-and-loss analysis.\n\n• Interactive charts with Chart.js\n• Metrics cards for key financial data\n• Enhanced dashboard for better UX', 
+                        time: '2:22 PM',
+                        clickable: 'https://www.invoiceowl.com/'
+                    },
+                    { 
+                        type: 'in', 
+                        content: '🏠 Aby Chalet\nGuest house booking Laravel project with enhanced user experience features.\n\n• Time-limited offers showcase\n• Detailed chalet information\n• Amenity-based search functionality\n• AlFatoorah API integration for payments', 
+                        time: '2:23 PM',
+                        clickable: 'https://aby-chalet.com/'
+                    },
+                    { 
+                        type: 'in', 
+                        content: '🤖 SMS-AI\nStudent Management System powered by GPT-4 and Gemini with AI-driven features.\n\n• Dynamic templates with customizable fields\n• Real-time chatbot via WebSockets\n• Python API for template history tracking', 
+                        time: '2:24 PM',
+                        clickable: 'http://frontai.testerp.co/#/login'
+                    },
+                    { 
+                        type: 'in', 
+                        content: '👰 Dulhansdiary\nCustom PHP-based eCommerce platform for a seamless shopping experience.\n\n• Multiple payment methods (Stripe, PayPal)\n• Secure transaction processing\n• User-friendly shopping interface', 
+                        time: '2:25 PM',
+                        clickable: 'https://dulhansdiary.com/'
+                    },
+                    { 
+                        type: 'in', 
+                        content: '🏥 Patient Portal\nLaravel-based healthcare management system for patient-doctor interaction.\n\n• Secure patient registration and login\n• Appointment scheduling system\n• Medical records management\n• Doctor-patient communication portal', 
+                        time: '2:26 PM'
+                    },
+                    { 
+                        type: 'in', 
+                        content: '🛡️ Harold\'s List Security Enhancement\nImplemented Cloudflare Turnstile CAPTCHA widget for enhanced security.\n\n• Bot protection and spam prevention\n• Seamless user experience\n• Advanced security integration', 
+                        time: '2:27 PM',
+                        clickable: 'https://www.haroldslist.com/preloader.html'
+                    },
+                    { 
+                        type: 'in', 
+                        content: '📐 DXF File Converter\nDeveloped a specialized tool for DXF file format conversion and processing.\n\n• Multiple format support\n• Batch processing capabilities\n• Optimized file handling\n• User-friendly interface', 
+                        time: '2:28 PM'
+                    },
+                    { 
+                        type: 'in', 
+                        content: '🚗 Lahinch Limos\nWordPress-based car rental website with comprehensive booking system.\n\n• Vehicle inventory management\n• Online booking system\n• Payment gateway integration\n• Responsive design and user experience', 
+                        time: '2:29 PM',
+                        clickable: 'https://lahinchlimos.com'
+                    },
+                    { type: 'in', content: 'Each project showcases different technical skills and innovative problem-solving approaches. From healthcare systems to security enhancements, I\'ve worked across diverse domains. Want to know more about any specific project? 💬', time: '2:30 PM' }
+                ]
+            },
+            experience: {
+                title: 'Work Experience',
+                avatar: 'fa-briefcase',
+                color: 'bg-orange-600',
+                context: 'I have worked as a Full Stack Developer at Maqware Solutions since May 2023, where I developed the Maqware.com website using Nuxt.js and specialized in API integration and RESTful API development. Previously, I worked as a Software Developer at Pacslink Corporation from September 2022 to April 2023, where I developed modules for desktop applications using Java and implemented a patient portal with Oracle APEX. I have extensive experience with payment integrations, WordPress development, and security implementations.',
+                messages: [
+                    { type: 'in', content: 'My professional journey:', time: '2:15 PM' },
+                    { type: 'in', content: '🏢 Full Stack Developer at Maqware Solutions (May 2023 - Present)\n• Developed Maqware.com in-house website using Nuxt.js\n• Specialized in API integration via Vuex\n• Building RESTful APIs\n• Leveraged Laravel, Nova, Vue.js, and Nuxt.js for scalable applications\n• Implemented multiple payment gateways (AlFatoorah, Stripe, PayPal)', time: '2:15 PM' },
+                    { type: 'in', content: '💼 Software Developer at Pacslink Corporation (September 2022 – April 2023)\n• Developed new modules for desktop applications using Java\n• Created detailed reports with Jasper Reports (iReport) for a medical management system\n• Designed and implemented a comprehensive patient portal in Laravel\n• Built feature-rich dashboard on Oracle APEX\n• Enhanced security with CAPTCHA implementations', time: '2:16 PM' },
+                    { type: 'in', content: '🎯 Key Achievements:\n• Delivered scalable and responsive applications\n• Implemented secure payment integrations across multiple platforms\n• Built AI-powered systems with real-time communication\n• Created user-friendly interfaces with enhanced UX\n• Successfully integrated Cloudflare Turnstile for security\n• Developed specialized file conversion tools', time: '2:17 PM' },
+                    { type: 'in', content: 'Ask me about my experience with any specific role, technology, payment integration, or challenge I\'ve faced! 🎯', time: '2:18 PM' }
+                ]
+            },
+            contact: {
+                title: 'Contact Me',
+                avatar: 'fa-envelope',
+                color: 'bg-red-600',
+                context: `You can contact me via email at ${CONFIG.email}, LinkedIn, GitHub, or phone at ${CONFIG.phone}. I am based in ${CONFIG.location} and always open to new opportunities, collaborations, freelance projects, and interesting conversations about technology. I typically respond within 24 hours and love discussing innovative projects, payment integrations, WordPress development, and Laravel applications.`,
+                messages: [
+                    { type: 'in', content: 'Let\'s connect! 📞', time: '2:10 PM' },
+                    { type: 'in', content: `📧 Email: ${CONFIG.email}\nBest for: Job opportunities, project inquiries, formal communication`, time: '2:10 PM', clickable: `mailto:${CONFIG.email}` },
+                    { type: 'in', content: '💼 LinkedIn: Connect with me professionally\nBest for: Networking, career opportunities, professional updates', time: '2:11 PM', clickable: CONFIG.linkedin },
+                    { type: 'in', content: '🐙 GitHub: Check out my code\nBest for: Reviewing my projects, collaboration, open source contributions', time: '2:11 PM', clickable: CONFIG.github },
+                    { type: 'in', content: `📱 Phone: ${CONFIG.phone}\nBest for: Urgent matters, quick discussions`, time: '2:12 PM', clickable: `tel:${CONFIG.phone}` },
+                    { type: 'in', content: '🏠 Location: Lahore, Pakistan', time: '2:13 PM' },
+                    { type: 'in', content: '🤝 I\'m open to:\n• Full-time opportunities\n• Freelance projects\n• WordPress development\n• Payment gateway integrations\n• Laravel applications\n• Technical consultations\n• Open source collaborations\n• Speaking at events', time: '2:14 PM' },
+                    { type: 'in', content: `Feel free to reach out anytime! I'm based in ${CONFIG.location} and typically respond within 24 hours. I'm always excited to discuss new projects, payment integrations, and innovative solutions! ⚡`, time: '2:15 PM' }
+                ]
+            }
+        };
+        // Enhanced AI Functions
+        async function initializeAI() {
+            const modal = document.getElementById('aiSetupModal');
+            const saveBtn = document.getElementById('saveToken');
+            const skipBtn = document.getElementById('skipAI');
+            const providerRadios = document.querySelectorAll('input[name="aiProvider"]');
+            const apiKeySection = document.getElementById('apiKeySection');
+            const tokenInput = document.getElementById('apiTokenInput');
+            const apiInstructions = document.getElementById('apiInstructions');
+            // Check if setup already exists
+            const savedProvider = localStorage.getItem('ai_provider');
+            const savedToken = localStorage.getItem('ai_token');
+            
+            if (savedProvider === 'enhanced' || (savedProvider && savedToken)) {
+                aiProvider = savedProvider;
+                apiToken = savedToken;
+                aiEnabled = true;
+                modal.style.display = 'none';
+                updateAIStatus();
+                return;
+            }
+            // Provider selection handler
+            providerRadios.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    const provider = e.target.value;
+                    if (provider === 'enhanced') {
+                        apiKeySection.style.display = 'none';
+                    } else {
+                        apiKeySection.style.display = 'block';
+                        updateApiInstructions(provider);
+                    }
+                });
+            });
+            function updateApiInstructions(provider) {
+                const instructions = {
+                    groq: `
+                        <div>1. Go to <a href="https://console.groq.com/keys" target="_blank" class="text-blue-400 hover:underline">console.groq.com/keys</a></div>
+                        <div>2. Create a free account (no credit card required)</div>
+                        <div>3. Generate a new API key</div>
+                        <div>4. Paste it above (free tier includes 6000 tokens/min)</div>
+                    `,
+                    huggingface: `
+                        <div>1. Go to <a href="https://huggingface.co/join" target="_blank" class="text-blue-400 hover:underline">huggingface.co</a> and create account</div>
+                        <div>2. Visit <a href="https://huggingface.co/settings/tokens" target="_blank" class="text-blue-400 hover:underline">settings/tokens</a></div>
+                        <div>3. Create token with "Read" permission</div>
+                        <div>4. Paste it above</div>
+                    `
+                };
+                apiInstructions.innerHTML = instructions[provider] || '';
+            }
+            saveBtn.addEventListener('click', async () => {
+                const selectedProvider = document.querySelector('input[name="aiProvider"]:checked').value;
+                
+                if (selectedProvider === 'enhanced') {
+                    aiProvider = 'enhanced';
+                    aiEnabled = true;
+                    localStorage.setItem('ai_provider', 'enhanced');
+                    modal.style.display = 'none';
+                    updateAIStatus();
+                    return;
+                }
+                const token = tokenInput.value.trim();
+                if (!token) {
+                    alert('Please enter your API key');
+                    return;
+                }
+                // Test the API key
+                try {
+                    let testResult = false;
+                    if (selectedProvider === 'groq') {
+                        testResult = await testGroqAPI(token);
+                    } else if (selectedProvider === 'huggingface') {
+                        testResult = await testHuggingFaceAPI(token);
+                    }
+                    if (testResult) {
+                        localStorage.setItem('ai_provider', selectedProvider);
+                        localStorage.setItem('ai_token', token);
+                        aiProvider = selectedProvider;
+                        apiToken = token;
+                        aiEnabled = true;
+                        modal.style.display = 'none';
+                        updateAIStatus();
+                    } else {
+                        alert('Invalid API key. Please check your token.');
+                    }
+                } catch (error) {
+                    console.error('API test error:', error);
+                    alert('Error testing API key. Please try again.');
+                }
+            });
+            skipBtn.addEventListener('click', () => {
+                aiProvider = 'enhanced';
+                aiEnabled = true;
+                modal.style.display = 'none';
+                updateAIStatus();
+            });
+            // Allow Enter key to save
+            tokenInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    saveBtn.click();
+                }
+            });
+        }
+        async function testGroqAPI(token) {
+            try {
+                const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        model: 'mixtral-8x7b-32768',
+                        messages: [{ role: 'user', content: 'Hi' }],
+                        max_tokens: 10
+                    })
+                });
+                return response.ok;
+            } catch (error) {
+                return false;
+            }
+        }
+        async function testHuggingFaceAPI(token) {
+            try {
+                const response = await fetch('https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ inputs: "Hello" })
+                });
+                return response.ok || response.status === 503;
+            } catch (error) {
+                return false;
+            }
+        }
+        function updateAIStatus() {
+            const statusIcon = document.getElementById('aiStatusIcon');
+            if (aiEnabled) {
+                statusIcon.className = 'fas fa-robot text-green-400 cursor-pointer hover:text-green-300 transition-colors';
+                statusIcon.title = `AI Enabled (${aiProvider}) - Smart responses active`;
+            } else {
+                statusIcon.className = 'fas fa-robot text-red-400 cursor-pointer hover:text-red-300 transition-colors';
+                statusIcon.title = 'AI Disabled - Click to enable';
+            }
+        }
+        // Enhanced AI Response Generation
+        async function getAIResponse(userMessage, context) {
+            if (!aiEnabled) {
+                return getEnhancedFallbackResponse(userMessage, context);
+            }
+            try {
+                let response;
+                switch (aiProvider) {
+                    case 'groq':
+                        response = await getGroqResponse(userMessage, context);
+                        break;
+                    case 'huggingface':
+                        response = await getHuggingFaceResponse(userMessage, context);
+                        break;
+                    default:
+                        response = getEnhancedFallbackResponse(userMessage, context);
+                }
+                return response;
+            } catch (error) {
+                console.error('AI Error:', error);
+                return getEnhancedFallbackResponse(userMessage, context);
+            }
+        }
+        async function getGroqResponse(userMessage, context) {
+            if (!apiToken) return getEnhancedFallbackResponse(userMessage, context);
+            const systemPrompt = `You are ${CONFIG.name}, a ${CONFIG.yearsOfExperience} experienced ${CONFIG.title} from ${CONFIG.location}. 
+Context: ${context}
+Conversation history: ${conversationHistory.slice(-6).map(msg => `${msg.role}: ${msg.content}`).join('\n')}
+Respond as the developer in a natural, helpful way. Keep responses conversational but informative. If asked about technical details, be specific. If asked about projects, mention actual technologies and challenges. Always stay in character as the developer.`;
+            try {
+                const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${apiToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        model: 'mixtral-8x7b-32768',
+                        messages: [
+                            { role: 'system', content: systemPrompt },
+                            { role: 'user', content: userMessage }
+                        ],
+                        max_tokens: 500,
+                        temperature: 0.7
+                    })
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    return data.choices[0].message.content;
+                } else {
+                    throw new Error(`Groq API error: ${response.status}`);
+                }
+            } catch (error) {
+                console.error('Groq API Error:', error);
+                return getEnhancedFallbackResponse(userMessage, context);
+            }
+        }
+        async function getHuggingFaceResponse(userMessage, context) {
+            if (!apiToken) return getEnhancedFallbackResponse(userMessage, context);
+            try {
+                const response = await fetch('https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${apiToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        inputs: {
+                            past_user_inputs: conversationHistory.filter(msg => msg.role === 'user').slice(-3).map(msg => msg.content),
+                            generated_responses: conversationHistory.filter(msg => msg.role === 'assistant').slice(-3).map(msg => msg.content),
+                            text: userMessage
+                        }
+                    })
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    return data.generated_text || getEnhancedFallbackResponse(userMessage, context);
+                } else if (response.status === 503) {
+                    return "I'm warming up my AI brain... Please try again in a moment! 🧠";
+                } else {
+                    throw new Error(`HuggingFace API error: ${response.status}`);
+                }
+            } catch (error) {
+                console.error('HuggingFace API Error:', error);
+                return getEnhancedFallbackResponse(userMessage, context);
+            }
+        }
+        function getEnhancedFallbackResponse(userMessage, context) {
+            const message = userMessage.toLowerCase();
+            const currentContext = chatData[currentChat];
+            
+            // Add to conversation history
+            conversationHistory.push({ role: 'user', content: userMessage });
+            
+            // Enhanced intent detection with new skills and projects
+            const intents = {
+                greeting: ['hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening'],
+                projects: ['project', 'work', 'portfolio', 'built', 'created', 'developed', 'app', 'website', 'patient portal', 'harold', 'dxf', 'lahinch', 'limos'],
+                skills: ['skill', 'technology', 'tech', 'framework', 'language', 'programming', 'code', 'development', 'wordpress', 'jquery', 'ajax', 'payment', 'stripe', 'paypal', 'alfatoorah', 'postman', 'nova', 'turnstile'],
+                experience: ['experience', 'job', 'career', 'company', 'role', 'position', 'worked', 'employment'],
+                contact: ['contact', 'email', 'phone', 'hire', 'freelance', 'opportunity', 'reach out', 'get in touch'],
+                technical: ['how', 'why', 'what', 'explain', 'detail', 'architecture', 'implementation', 'approach'],
+                personal: ['about', 'background', 'story', 'journey', 'passion', 'motivation', 'interests'],
+                thanks: ['thank', 'thanks', 'appreciate', 'helpful', 'great', 'awesome', 'amazing'],
+                payment: ['payment', 'stripe', 'paypal', 'alfatoorah', 'gateway', 'integration', 'checkout'],
+                wordpress: ['wordpress', 'wp', 'cms', 'blog', 'theme', 'plugin'],
+                security: ['security', 'captcha', 'turnstile', 'cloudflare', 'protection', 'spam']
+            };
+            const detectedIntent = Object.keys(intents).find(intent => 
+                intents[intent].some(keyword => message.includes(keyword))
+            ) || 'general';
+            let response = '';
+            switch (detectedIntent) {
+                case 'greeting':
+                    response = `Hi there! 👋 I'm ${CONFIG.name}, a ${CONFIG.title}, and I'm excited to chat with you about my work and experience. What would you like to know about?`;
+                    break;
+                case 'projects':
+                    if (currentChat === 'projects') {
+                        if (message.includes('patient portal')) {
+                            response = "The Patient Portal was an exciting Laravel-based healthcare management system I developed! It features secure patient registration and login, appointment scheduling, medical records management, and a communication portal between doctors and patients. I focused heavily on security and HIPAA compliance considerations. The system uses Laravel's authentication and authorization features extensively. What aspect of healthcare system development interests you most?";
+                        } else if (message.includes('harold') || message.includes('turnstile')) {
+                            response = "For Harold's List, I implemented Cloudflare Turnstile CAPTCHA widget to enhance security and prevent bot attacks. This was a fascinating project because it required seamless integration without disrupting user experience. Turnstile is much more user-friendly than traditional CAPTCHAs while providing robust protection. I integrated it into the preloader page for optimal security. Have you worked with Cloudflare's security services before?";
+                        } else if (message.includes('dxf')) {
+                            response = "The DXF File Converter was a specialized tool I developed for processing and converting DXF (Drawing Exchange Format) files. This project required understanding CAD file structures and implementing efficient file parsing algorithms. I built it with support for multiple output formats, batch processing capabilities, and optimized file handling for large technical drawings. It was quite challenging but rewarding to work with such specific file formats!";
+                        } else if (message.includes('lahinch') || message.includes('limos')) {
+                            response = "Lahinch Limos is a comprehensive WordPress-based car rental website I developed! It features vehicle inventory management, online booking system with calendar integration, payment gateway support, and a responsive design. I customized WordPress extensively with custom post types, fields, and booking functionality. The challenge was creating a seamless booking experience while integrating with payment processors. Check it out at lahinchlimos.com!";
+                        } else if (message.includes('service owl')) {
+                            response = "Service Owl was a challenging project! I built a platform connecting clients and candidates with agencies through automated workflows and dynamic scheduling. The system features personalized dashboards with secure permissions for admin, client, and nanny users to manage shifts and services efficiently. I used Laravel for the backend and Vue.js for the frontend. Would you like to know more about any specific aspect?";
+                        } else if (message.includes('money maker')) {
+                            response = "Money Maker helps content creators secure and control access to their content. I implemented emulator detection, VPN blocking, and geo-targeting features. The system allows users to unlock content by completing offers, enabling affiliates to earn revenue while ensuring only legitimate access. This project required careful attention to security and user experience. What aspect interests you most?";
+                        } else {
+                            response = "I'm passionate about building full-stack applications that solve real problems! From healthcare systems like the Patient Portal to security enhancements with Cloudflare Turnstile, and specialized tools like the DXF converter - each project taught me something new. Which type of project interests you most, or would you like to know about a specific technology I used?";
+                        }
+                    } else {
+                        response = "I'd love to tell you about my projects! I've built everything from Service Owl (agency platform) to a Patient Portal (healthcare system), implemented Cloudflare Turnstile security, created a DXF file converter, and developed Lahinch Limos (WordPress car rental site). Check out the 'My Projects' section to see detailed breakdowns with links. What kind of project are you most interested in?";
+                    }
+                    break;
+                case 'skills':
+                    if (currentChat === 'skills') {
+                        if (message.includes('wordpress') || message.includes('wp')) {
+                            response = "WordPress is a significant part of my skill set! I've developed custom themes, plugins, and complex websites like Lahinch Limos. I'm experienced with custom post types, ACF (Advanced Custom Fields), WooCommerce customization, and WordPress security best practices. I can work with existing themes or build completely custom solutions from scratch. What specific WordPress development challenge are you facing?";
+                        } else if (message.includes('payment') || message.includes('stripe') || message.includes('paypal') || message.includes('alfatoorah')) {
+                            response = "Payment integration is one of my specialties! I've worked extensively with AlFatoorah, Stripe, and PayPal APIs. Each has its own challenges - AlFatoorah for Middle Eastern markets, Stripe for its developer-friendly approach, and PayPal for its widespread adoption. I handle everything from simple checkouts to complex subscription billing, webhook processing, and PCI compliance considerations. Which payment system are you most interested in?";
+                        } else if (message.includes('jquery') || message.includes('ajax')) {
+                            response = "jQuery and AJAX are essential tools in my frontend arsenal! I use them for dynamic user interactions, form submissions without page reloads, real-time data updates, and smooth UI experiences. While I prefer Vue.js for complex applications, jQuery/AJAX is perfect for enhancing traditional websites and quick interactive features. I've used them extensively in WordPress projects and Laravel applications. What kind of dynamic functionality are you looking to implement?";
+                        } else if (message.includes('nova')) {
+                            response = "Laravel Nova is an amazing admin panel tool! I've used it extensively for building elegant administrative interfaces. It's perfect for managing complex data relationships, creating custom dashboards, and providing clients with user-friendly content management. The ability to customize fields, filters, and actions makes it incredibly powerful for business applications. Have you worked with Nova before, or are you considering it for a project?";
+                        } else if (message.includes('postman')) {
+                            response = "Postman is essential for my API development workflow! I use it for testing RESTful APIs, documenting endpoints, creating automated test suites, and collaborating with team members. It's invaluable when building Laravel APIs or integrating with third-party services like payment gateways. I create comprehensive collections for each project to ensure all endpoints work perfectly. Are you working with APIs currently?";
+                        } else {
+                            response = "I focus on modern, production-ready technologies! My expanded stack now includes WordPress for CMS solutions, jQuery/AJAX for dynamic interactions, multiple payment gateways (AlFatoorah, Stripe, PayPal), Laravel Nova for admin panels, and security tools like Cloudflare Turnstile. I'm always learning new technologies and love discussing technical challenges! What specific technology would you like to dive deeper into?";
+                        }
+                    } else {
+                        response = "I specialize in full-stack development with an expanded skill set including PHP/Laravel, WordPress, Vue.js/Nuxt.js for frontend, multiple payment integrations (AlFatoorah, Stripe, PayPal), security implementations like Cloudflare Turnstile, and specialized tools. Visit the 'Technical Skills' section to see my complete tech stack and ask me about any specific technology!";
+                    }
+                    break;
+                case 'payment':
+                    response = "Payment integration is one of my core strengths! I've implemented AlFatoorah for Middle Eastern markets, Stripe for international transactions, and PayPal for widespread compatibility. Each integration involves handling webhooks, managing transaction states, PCI compliance, and creating smooth user experiences. I've worked with subscription billing, one-time payments, and complex checkout flows. Which payment solution are you considering for your project?";
+                    break;
+                case 'wordpress':
+                    response = "WordPress development is a significant part of my expertise! I've built custom themes, developed plugins, created complex websites like Lahinch Limos, and integrated advanced functionality. I'm experienced with custom post types, ACF, WooCommerce, security hardening, and performance optimization. Whether you need a simple business site or a complex web application, I can deliver WordPress solutions that scale. What kind of WordPress project are you planning?";
+                    break;
+                case 'security':
+                    response = "Security is crucial in web development! I've implemented Cloudflare Turnstile CAPTCHA for bot protection, which provides excellent security without frustrating users. I also focus on secure payment processing, input validation, authentication systems, and following security best practices in Laravel and WordPress. The Harold's List project was a great example of seamless security integration. What security challenges are you facing?";
+                    break;
+                case 'experience':
+                    if (currentChat === 'experience') {
+                        response = "My career progression has been focused on continuous learning and expanding my skill set. Each role taught me different aspects - from Java development and patient portals at Pacslink to full-stack Laravel development, payment integrations, and WordPress projects at Maqware. I'm proud of consistently delivering secure, scalable solutions across diverse technologies. What specific aspect of my experience would you like to know more about?";
+                    } else {
+                        response = "I have ${CONFIG.yearsOfExperience} years of experience working across various technologies - from Laravel and WordPress to payment integrations and security implementations. I've worked at Maqware Solutions as a Full Stack Developer and previously at Pacslink Corporation, gaining experience with healthcare systems, payment gateways, and enterprise applications. Check out my 'Work Experience' section for detailed information!";
+                    }
+                    break;
+                case 'contact':
+                    response = `I'm always excited to discuss new opportunities! You can reach me at ${CONFIG.email} for formal inquiries, connect with me on LinkedIn for networking, or check out my GitHub for code samples. I'm based in ${CONFIG.location} and open to Laravel projects, WordPress development, payment integrations, and both remote and local opportunities. What kind of project are you thinking about?`;
+                    break;
+                case 'technical':
+                    response = "I love diving into technical details! Whether you're curious about Laravel architecture, WordPress customization, payment gateway integration, security implementation, or database design, I'm happy to share my experience. I can discuss everything from API development to frontend optimization to deployment strategies. What specific technical aspect would you like me to explain?";
+                    break;
+                case 'personal':
+                    response = `I'm passionate about creating technology that makes a difference! My journey spans from traditional web development to specialized tools like DXF converters and healthcare systems. I love the challenge of integrating complex payment systems and ensuring robust security. Based in ${CONFIG.location}, I enjoy learning new technologies and contributing to innovative projects. What sparked your interest in development?`;
+                    break;
+                case 'thanks':
+                    response = "You're very welcome! I really enjoy sharing my experience with Laravel, WordPress, payment integrations, and all aspects of web development. Feel free to ask me anything else about my work, projects, or specific technologies like payment gateways or security implementations. Is there anything specific you'd like to explore further?";
+                    break;
+                default:
+                    // Context-aware general response
+                    if (currentContext) {
+                        response = `That's an interesting question! ${currentContext.context.split('.')[0]}. Could you be more specific about what you'd like to know? I'm happy to dive deeper into any aspect of my work, whether it's Laravel development, WordPress projects, payment integrations, or security implementations.`;
+                    } else {
+                        response = "I'd be happy to help you with that! Could you be more specific about what you're looking for? I can share details about my projects, technical skills like Laravel and WordPress, payment integrations, experience, or anything else you're curious about.";
+                    }
+            }
+            // Add to conversation history
+            conversationHistory.push({ role: 'assistant', content: response });
+            
+            // Keep conversation history manageable
+            if (conversationHistory.length > 20) {
+                conversationHistory = conversationHistory.slice(-10);
+            }
+            return response;
+        }
+        // Message Functions
+        function createMessage(message, isAnimated = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flex ${message.type === 'out' ? 'justify-end' : 'justify-start'} ${isAnimated ? 'opacity-0 translate-y-4' : ''}`;
+            
+            let contentHTML = `<p class="whitespace-pre-line">${message.content}</p>`;
+            
+            // Add image if present
+            if (message.image) {
+                contentHTML = `
+                    <img src="${message.image}" alt="Project Screenshot" class="w-full rounded-lg mb-3 cursor-pointer hover:opacity-90 transition-opacity shadow-lg" onclick="window.open('${message.image}', '_blank')">
+                    ${contentHTML}
+                `;
+            }
+            const messageContent = `
+                <div class="max-w-xs lg:max-w-md px-4 py-3 rounded-lg ${
+                    message.type === 'out' ? 'bg-wa-message-out text-white' : 'bg-wa-message-in text-wa-text'
+                } shadow-md ${message.clickable ? 'cursor-pointer hover:shadow-lg transition-shadow' : ''}">
+                    ${contentHTML}
+                    <span class="text-xs opacity-70 block mt-2 text-right">${message.time}</span>
+                </div>
+            `;
+            // Add clickable link if present
+            if (message.clickable) {
+                messageDiv.innerHTML = `<a href="${message.clickable}" target="_blank" class="block hover:transform hover:scale-105 transition-transform">${messageContent}</a>`;
+            } else {
+                messageDiv.innerHTML = messageContent;
+            }
+            if (isAnimated) {
+                setTimeout(() => {
+                    messageDiv.classList.remove('opacity-0', 'translate-y-4');
+                    messageDiv.classList.add('transition-all', 'duration-300');
+                }, 100);
+            }
+            return messageDiv;
+        }
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'flex justify-start typing-indicator';
+            typingDiv.innerHTML = `
+                <div class="bg-wa-message-in px-4 py-3 rounded-lg shadow-md">
+                    <div class="flex space-x-1">
+                        <div class="w-2 h-2 bg-wa-text-secondary rounded-full animate-pulse"></div>
+                        <div class="w-2 h-2 bg-wa-text-secondary rounded-full animate-pulse" style="animation-delay: 0.2s"></div>
+                        <div class="w-2 h-2 bg-wa-text-secondary rounded-full animate-pulse" style="animation-delay: 0.4s"></div>
+                    </div>
+                </div>
+            `;
+            return typingDiv;
+        }
+        function loadChat(chatKey) {
+            currentChat = chatKey;
+            messageIndex = 0;
+            const chat = chatData[chatKey];
+            const messagesContainer = document.getElementById('messages');
+            
+            // Clear conversation history when switching chats
+            conversationHistory = [];
+            
+            // Update header
+            document.getElementById('chat-title').textContent = chat.title;
+            document.getElementById('chat-avatar').className = `w-10 h-10 ${chat.color} rounded-full flex items-center justify-center`;
+            document.getElementById('chat-avatar').innerHTML = `<i class="fas ${chat.avatar} text-white"></i>`;
+            
+            // Update sidebar selection
+            document.querySelectorAll('.chat-item').forEach(item => {
+                item.classList.remove('bg-wa-hover', 'border-l-4', 'border-green-400');
+            });
+            document.querySelector(`[data-chat="${chatKey}"]`).classList.add('bg-wa-hover', 'border-l-4', 'border-green-400');
+            
+            // Clear messages
+            messagesContainer.innerHTML = '';
+            
+            // Load first message immediately, then animate the rest
+            if (chat.messages.length > 0) {
+                messagesContainer.appendChild(createMessage(chat.messages[0]));
+                messageIndex = 1;
+                setTimeout(() => animateMessages(), 1000);
+            }
+            
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+        function animateMessages() {
+            if (isTyping || messageIndex >= chatData[currentChat].messages.length) return;
+            
+            isTyping = true;
+            const messagesContainer = document.getElementById('messages');
+            const message = chatData[currentChat].messages[messageIndex];
+            
+            // Show typing indicator for incoming messages
+            if (message.type === 'in') {
+                const typingIndicator = showTypingIndicator();
+                messagesContainer.appendChild(typingIndicator);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                
+                setTimeout(() => {
+                    messagesContainer.removeChild(typingIndicator);
+                    messagesContainer.appendChild(createMessage(message, true));
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    messageIndex++;
+                    isTyping = false;
+                    
+                    // Continue with next message
+                    setTimeout(() => animateMessages(), 1500);
+                }, Math.random() * 1000 + 1500); // Random delay for more natural feel
+            } else {
+                messagesContainer.appendChild(createMessage(message, true));
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                messageIndex++;
+                isTyping = false;
+                
+                // Continue with next message
+                setTimeout(() => animateMessages(), 1000);
+            }
+        }
+        async function sendMessage() {
+            const input = document.getElementById('message-input');
+            const text = input.value.trim();
+            
+            if (text === '' || isTyping) return;
+            
+            const messagesContainer = document.getElementById('messages');
+            const userMessage = {
+                type: 'out',
+                content: text,
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            };
+            
+            messagesContainer.appendChild(createMessage(userMessage, true));
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            input.value = '';
+            
+            // Show typing indicator
+            isTyping = true;
+            const typingIndicator = showTypingIndicator();
+            messagesContainer.appendChild(typingIndicator);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            // Update status to typing
+            document.getElementById('chat-status').textContent = 'typing...';
+            document.getElementById('chat-status').className = 'text-xs text-wa-text-secondary';
+            
+            // Get AI response
+            try {
+                const aiResponse = await getAIResponse(text, chatData[currentChat].context);
+                
+                setTimeout(() => {
+                    messagesContainer.removeChild(typingIndicator);
+                    
+                    const aiMessage = {
+                        type: 'in',
+                        content: aiResponse,
+                        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                    };
+                    
+                    messagesContainer.appendChild(createMessage(aiMessage, true));
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    isTyping = false;
+                    
+                    // Reset status to online
+                    setTimeout(() => {
+                        document.getElementById('chat-status').textContent = 'online';
+                        document.getElementById('chat-status').className = 'text-xs text-green-400';
+                    }, 1000);
+                }, Math.random() * 1000 + 2000); // Random response time for natural feel
+            } catch (error) {
+                console.error('Error getting AI response:', error);
+                setTimeout(() => {
+                    if (messagesContainer.contains(typingIndicator)) {
+                        messagesContainer.removeChild(typingIndicator);
+                    }
+                    isTyping = false;
+                    
+                    // Show error message
+                    const errorMessage = {
+                        type: 'in',
+                        content: 'Sorry, I\'m having trouble responding right now. Please try again! 🤖',
+                        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                    };
+                    messagesContainer.appendChild(createMessage(errorMessage, true));
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    
+                    // Reset status
+                    document.getElementById('chat-status').textContent = 'online';
+                    document.getElementById('chat-status').className = 'text-xs text-green-400';
+                }, 1000);
+            }
+        }
+        // Event Listeners
+        document.querySelectorAll('.chat-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const chatKey = item.getAttribute('data-chat');
+                loadChat(chatKey);
+            });
+        });
+        document.getElementById('send-btn').addEventListener('click', sendMessage);
+        document.getElementById('message-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+        // AI Status Icon Click
+        document.getElementById('aiStatusIcon').addEventListener('click', () => {
+            if (!aiEnabled) {
+                document.getElementById('aiSetupModal').style.display = 'flex';
+            } else {
+                // Show AI info
+                const aiInfo = `
+                    AI Status: ${aiEnabled ? 'Enabled ✅' : 'Disabled ❌'}
+                    Provider: ${aiProvider}
+                    ${aiProvider === 'groq' ? 'Model: Mixtral-8x7B' : aiProvider === 'huggingface' ? 'Model: DialoGPT' : 'Enhanced Local AI'}
+                    
+                    ${aiEnabled ? 'AI responses are active and context-aware!' : 'Click to setup AI responses'}
+                `;
+                alert(aiInfo);
+            }
+        });
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeAI();
+            loadChat('about');
+        });
+        // Enhanced status updates
+        setInterval(() => {
+            if (!isTyping) {
+                const statuses = ['online', 'last seen recently'];
+                const weights = [0.85, 0.15]; // 85% online, 15% last seen recently
+                const random = Math.random();
+                let selectedStatus;
+                
+                if (random < weights[0]) {
+                    selectedStatus = statuses[0];
+                } else {
+                    selectedStatus = statuses[1];
+                }
+                
+                const currentStatus = document.getElementById('chat-status').textContent;
+                if (selectedStatus !== currentStatus && Math.random() > 0.95) {
+                    document.getElementById('chat-status').textContent = selectedStatus;
+                    document.getElementById('chat-status').className = selectedStatus === 'online' ? 'text-xs text-green-400' : 'text-xs text-wa-text-secondary';
+                }
+            }
+        }, 8000);
+        // Enhanced keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('aiSetupModal');
+                if (modal.style.display === 'flex') {
+                    modal.style.display = 'none';
+                } else {
+                    document.getElementById('message-input').blur();
+                }
+            }
+            
+            // Quick navigation with Ctrl + number keys
+            if (e.ctrlKey && e.key >= '1' && e.key <= '5') {
+                e.preventDefault();
+                const chatKeys = ['about', 'skills', 'projects', 'experience', 'contact'];
+                const index = parseInt(e.key) - 1;
+                if (chatKeys[index]) {
+                    loadChat(chatKeys[index]);
+                }
+            }
+            
+            // Focus message input with '/' key
+            if (e.key === '/' && !e.ctrlKey && !e.altKey) {
+                e.preventDefault();
+                document.getElementById('message-input').focus();
+            }
+        });
+        // Message search functionality
+        function addMessageSearch() {
+            const searchInput = document.querySelector('input[placeholder="Search or start new chat"]');
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                if (query.length < 2) {
+                    // Reset highlights
+                    document.querySelectorAll('#messages p').forEach(message => {
+                        const messageDiv = message.closest('.flex');
+                        messageDiv.style.backgroundColor = '';
+                        messageDiv.style.border = '';
+                    });
+                    return;
+                }
+                
+                // Search through current chat messages
+                const messages = document.querySelectorAll('#messages p');
+                messages.forEach(message => {
+                    const messageDiv = message.closest('.flex');
+                    if (message.textContent.toLowerCase().includes(query)) {
+                        messageDiv.style.backgroundColor = 'rgba(34, 197, 94, 0.1)';
+                        messageDiv.style.border = '1px solid rgba(34, 197, 94, 0.3)';
+                        messageDiv.style.borderRadius = '8px';
+                    } else {
+                        messageDiv.style.backgroundColor = '';
+                        messageDiv.style.border = '';
+                    }
+                });
+            });
+        }
+        // Initialize enhanced features
+        addMessageSearch();
+        // Welcome message with tips
+        function showWelcomeMessage() {
+            setTimeout(() => {
+                if (messageIndex === 1) { // Only show if we're still on the first message
+                    const messagesContainer = document.getElementById('messages');
+                    const welcomeMessage = {
+                        type: 'in',
+                        content: `💡 Pro tip: I have ${aiEnabled ? 'enhanced AI powered by ' + aiProvider : 'smart contextual responses'}! Try asking about specific technologies like WordPress, payment integrations, Laravel projects, or security implementations. Use Ctrl+1-5 to navigate sections quickly!`,
+                        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                    };
+                    messagesContainer.appendChild(createMessage(welcomeMessage, true));
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }
+            }, 12000); // Show after 12 seconds
+        }
+        // Initialize welcome message
+        setTimeout(showWelcomeMessage, 1000);
+        // Console info
+        console.log('🤖 Enhanced AI Portfolio Chat v3.1');
+        console.log('Features: Multi-provider AI, Enhanced Context Awareness, Smart Intent Detection');
+        console.log('Skills: Laravel, WordPress, Payment Integrations (AlFatoorah, Stripe, PayPal), Security');
+        console.log('Projects: Patient Portal, DXF Converter, Cloudflare Turnstile, Lahinch Limos');
+        console.log('Providers: Groq (Recommended), HuggingFace, Enhanced Local AI');
+        console.log('Shortcuts: Ctrl+1-5 (navigation), / (focus input), Esc (blur/close)');
+    </script>
+</body>
+</html>
