@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,7 +20,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body class="font-sans transition-colors duration-300 bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
-    
+
     <!-- Header Component -->
     <header id="header" class="fixed w-full top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -75,12 +74,12 @@
                     Experienced Laravel developer with expertise in web application development and delivering high-quality, scalable solutions. Passionate about leveraging modern technologies to build innovative projects.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg font-semibold transition-all transform hover:scale-105">
+                    <button id="download-resume" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg font-semibold transition-all transform hover:scale-105">
                         Download Resume
                     </button>
-                    <button class="border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 px-8 py-4 rounded-lg font-semibold transition-colors">
+                    <a href="#contact" class="border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 px-8 py-4 rounded-lg font-semibold transition-colors">
                         Contact Me
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -101,7 +100,7 @@
                 <div>
                     <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-6">My Journey</h3>
                     <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                        As a passionate full-stack developer, I've dedicated my career to mastering Laravel and creating robust web applications. With a strong foundation in both frontend and backend development, I bring comprehensive solutions to complex problems.
+                        As a passionate full-stack developer with more than 3 years of experience, I've dedicated my career to mastering Laravel and Vue.js and creating robust web applications. With a strong foundation in both frontend and backend development, I bring comprehensive solutions to complex problems.
                     </p>
                     <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
                         My journey began at Government College University Faisalabad where I earned my Bachelor's degree in Computer Science. Since then, I've worked with various technologies and frameworks, constantly expanding my skillset to stay at the forefront of web development trends.
@@ -157,6 +156,10 @@
                     <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Laravel</h3>
                 </div>
                 <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg text-center">
+                    <div class="text-3xl text-purple-600 dark:text-purple-400 mb-4">🎛️</div>
+                    <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Laravel Nova</h3>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg text-center">
                     <div class="text-3xl text-purple-600 dark:text-purple-400 mb-4">🎨</div>
                     <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Vue.js</h3>
                 </div>
@@ -171,6 +174,26 @@
                 <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg text-center">
                     <div class="text-3xl text-purple-600 dark:text-purple-400 mb-4">🎯</div>
                     <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Git Version Control</h3>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg text-center">
+                    <div class="text-3xl text-purple-600 dark:text-purple-400 mb-4">📊</div>
+                    <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Tailwind CSS</h3>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg text-center">
+                    <div class="text-3xl text-purple-600 dark:text-purple-400 mb-4">🔍</div>
+                    <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Postman</h3>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg text-center">
+                    <div class="text-3xl text-purple-600 dark:text-purple-400 mb-4">📜</div>
+                    <h3 class="font-semibold text-gray-900 dark:text-white mb-2">SQL</h3>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg text-center">
+                    <div class="text-3xl text-purple-600 dark:text-purple-400 mb-4">🌐</div>
+                    <h3 class="font-semibold text-gray-900 dark:text-white mb-2">JavaScript</h3>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg text-center">
+                    <div class="text-3xl text-purple-600 dark:text-purple-400 mb-4">🎨</div>
+                    <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Bootstrap</h3>
                 </div>
             </div>
         </div>
@@ -323,7 +346,7 @@
                             Invoice Owl
                         </h3>
                         <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 leading-relaxed">
-                            An invoice generation tool designed to facilitate expense tracking and profit-and-loss analysis. Improved the user experience by enhancing the dashboard with interactive charts and metrics cards displaying key data such as total revenue, overdue invoices, and paid invoices.
+                            An invoice generation tool designed to facilitate expense tracking and profit-and-loss analysis. Improvedthe user experience by enhancing the dashboard with interactive charts and metrics cards displaying key data such as total revenue, overdue invoices, and paid invoices.
                         </p>
                         <a href="https://www.invoiceowl.com/" target="_blank" class="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium inline-flex items-center">
                             Visit Website
@@ -452,10 +475,6 @@
                             <span class="text-gray-700 dark:text-gray-300 text-lg">ansab.khalid444@gmail.com</span>
                         </div>
                         <div class="flex items-center">
-                            <i data-lucide="map-pin" class="w-6 h-6 text-purple-600 dark:text-purple-400 mr-4"></i>
-                            <span class="text-gray-700 dark:text-gray-300 text-lg">Zeenat block Iqbal town, Lahore</span>
-                        </div>
-                        <div class="flex items-center">
                             <i data-lucide="linkedin" class="w-6 h-6 text-purple-600 dark:text-purple-400 mr-4"></i>
                             <span class="text-gray-700 dark:text-gray-300 text-lg">Ansab-Khalid</span>
                         </div>
@@ -482,7 +501,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Message</label>
-                            <textarea id="message" rows="5" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 resize-none" placeholder="Tell me about your project..."></textarea>
+                            <textarea rows="5" id="message" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 resize-none" placeholder="Tell me about your project..."></textarea>
                         </div>
                         <button id="send-message" class="w-full bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg font-semibold transition-colors">
                             Send Message
@@ -584,6 +603,16 @@
 
             // Re-initialize lucide icons
             lucide.createIcons();
+
+            // Resume download functionality
+            document.getElementById('download-resume').addEventListener('click', function() {
+                const link = document.createElement('a');
+                link.href = 'AnsabKhalid.pdf';
+                link.download = 'Ansab_Khalid_Resume.pdf';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
         });
     </script>
 </body>
