@@ -1,0 +1,11 @@
+# Design auto-committer state (local only, not for tracking)
+.design-state.json
+
+# OS / editor artifacts
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+.vscode/
+.idea/
