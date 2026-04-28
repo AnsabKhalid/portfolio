@@ -24,6 +24,23 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
+    <style id="auto-design-patch">
+  /* -- Scroll Progress Indicator -- */
+  #scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%);
+    z-index: 10000;
+    transition: width 0.08s linear;
+    border-radius: 0 2px 2px 0;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.7);
+    pointer-events: none;
+  }
+
+</style>
   </head>
   <body
     class="font-sans transition-colors duration-300 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
@@ -1811,5 +1828,20 @@
     </footer>
 
     <script src="script.js"></script>
+    <script id="auto-design-script">
+  /* Scroll progress bar */
+  (function () {
+    var bar = document.createElement('div');
+    bar.id = 'scroll-progress';
+    document.body.prepend(bar);
+    function update() {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = (max > 0 ? Math.min((window.scrollY / max) * 100, 100) : 0) + '%';
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  })();
+
+</script>
   </body>
 </html>
