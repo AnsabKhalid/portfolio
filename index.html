@@ -25,21 +25,20 @@
       rel="stylesheet"
     />
     <style id="auto-design-patch">
-  /* -- Animated Gradient Hero Text -- */
-  @keyframes adp-gradientFlow {
-    0%   { background-position: 0%   50%; }
-    50%  { background-position: 100% 50%; }
-    100% { background-position: 0%   50%; }
+  /* -- Custom Branded Scrollbar -- */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #7c3aed, #a855f7);
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
   }
-  #home h1 > span {
-    display: inline-block;
-    background: linear-gradient(270deg, #7c3aed, #a855f7, #6366f1, #7c3aed);
-    background-size: 300% 300%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: adp-gradientFlow 6s ease infinite;
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #6d28d9, #9333ea);
+    background-clip: padding-box;
   }
+  html { scrollbar-width: thin; scrollbar-color: #7c3aed transparent; }
 
 </style>
   </head>
