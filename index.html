@@ -25,23 +25,18 @@
       rel="stylesheet"
     />
     <style id="auto-design-patch">
-  /* -- Animated Gradient Experience Card Border -- */
-  @keyframes adp-borderSlide {
-    0%   { background-position: 0%   0%; }
-    100% { background-position: 0% 200%; }
+  /* -- Floating Hero Accent -- */
+  @keyframes adp-gentleFloat {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-9px); }
   }
-  #experience .relative .absolute.w-1 {
-    background: linear-gradient(180deg, #7c3aed, #a855f7, #6366f1, #7c3aed) !important;
-    background-size: 100% 200% !important;
-    animation: adp-borderSlide 3s linear infinite;
-    border-radius: 4px;
+  #home h1 > span {
+    display: inline-block;
+    animation: adp-gentleFloat 4.5s ease-in-out infinite;
+    will-change: transform;
   }
-  #experience .rounded-xl {
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-  }
-  #experience .rounded-xl:hover {
-    box-shadow: 0 20px 55px rgba(124, 58, 237, 0.13);
-    transform: translateY(-3px);
+  @media (prefers-reduced-motion: reduce) {
+    #home h1 > span { animation: none; }
   }
 
 </style>
