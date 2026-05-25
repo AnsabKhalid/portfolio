@@ -25,18 +25,14 @@
       rel="stylesheet"
     />
     <style id="auto-design-patch">
-  /* -- Floating Hero Accent -- */
-  @keyframes adp-gentleFloat {
-    0%, 100% { transform: translateY(0px); }
-    50%       { transform: translateY(-9px); }
-  }
-  #home h1 > span {
-    display: inline-block;
-    animation: adp-gentleFloat 4.5s ease-in-out infinite;
+  /* -- 3D Tilt Skill Cards -- */
+  #skills .grid > div {
+    transform-style: preserve-3d;
     will-change: transform;
+    cursor: default;
   }
-  @media (prefers-reduced-motion: reduce) {
-    #home h1 > span { animation: none; }
+  #skills .grid > div.adp-tilt-active {
+    box-shadow: 0 14px 42px rgba(124, 58, 237, 0.2) !important;
   }
 
 </style>
@@ -1827,6 +1823,25 @@
     </footer>
 
     <script src="script.js"></script>
-    <script id="auto-design-script"></script>
+    <script id="auto-design-script">
+  /* 3D tilt on skill cards */
+  (function () {
+    var cards = document.querySelectorAll('#skills .grid > div');
+    cards.forEach(function (card) {
+      card.addEventListener('mousemove', function (e) {
+        var rect = card.getBoundingClientRect();
+        var x = ((e.clientX - rect.left) / rect.width  - 0.5) * 20;
+        var y = -((e.clientY - rect.top)  / rect.height - 0.5) * 20;
+        card.style.transform = 'perspective(500px) rotateX(' + y + 'deg) rotateY(' + x + 'deg) scale(1.05)';
+        card.classList.add('adp-tilt-active');
+      });
+      card.addEventListener('mouseleave', function () {
+        card.style.transform = '';
+        card.classList.remove('adp-tilt-active');
+      });
+    });
+  })();
+
+</script>
   </body>
 </html>
