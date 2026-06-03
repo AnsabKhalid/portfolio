@@ -25,24 +25,19 @@
       rel="stylesheet"
     />
     <style id="auto-design-patch">
-  /* -- Contact Form Focus Glow -- */
-  #contact input, #contact textarea {
-    transition: border-color 0.25s ease, box-shadow 0.25s ease;
-  }
-  #contact input:focus, #contact textarea:focus {
-    outline: none;
-    border-color: #7c3aed !important;
-    box-shadow: 0 0 0 3px rgba(124,58,237,0.22), 0 0 14px rgba(124,58,237,0.1);
-  }
-  html.dark #contact input:focus, html.dark #contact textarea:focus {
-    border-color: #a855f7 !important;
-    box-shadow: 0 0 0 3px rgba(168,85,247,0.28), 0 0 18px rgba(168,85,247,0.12);
-  }
-  #contact button[type="submit"] {
-    transition: box-shadow 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
-  }
-  #contact button[type="submit"]:hover {
-    box-shadow: 0 6px 20px rgba(124,58,237,0.4);
+  /* -- Scroll Progress Indicator -- */
+  #scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%);
+    z-index: 10000;
+    transition: width 0.08s linear;
+    border-radius: 0 2px 2px 0;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.7);
+    pointer-events: none;
   }
 
 </style>
@@ -1833,6 +1828,20 @@
     </footer>
 
     <script src="script.js"></script>
-    <script id="auto-design-script"></script>
+    <script id="auto-design-script">
+  /* Scroll progress bar */
+  (function () {
+    var bar = document.createElement('div');
+    bar.id = 'scroll-progress';
+    document.body.prepend(bar);
+    function update() {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = (max > 0 ? Math.min((window.scrollY / max) * 100, 100) : 0) + '%';
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  })();
+
+</script>
   </body>
 </html>
