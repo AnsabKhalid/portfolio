@@ -25,26 +25,22 @@
       rel="stylesheet"
     />
     <style id="auto-design-patch">
-  /* -- Animated Section Heading Underlines -- */
-  .adp-heading {
-    position: relative;
-    padding-bottom: 14px;
-    display: inline-block;
+  /* -- Dot Grid Background Texture -- */
+  #about, #contact {
+    background-image: radial-gradient(rgba(124, 58, 237, 0.09) 1.5px, transparent 1.5px);
+    background-size: 28px 28px;
   }
-  .adp-heading::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 3px;
-    border-radius: 2px;
-    background: linear-gradient(90deg, #7c3aed, #a855f7, #6366f1);
-    transition: width 0.85s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  html.dark #about, html.dark #contact {
+    background-image: radial-gradient(rgba(168, 85, 247, 0.08) 1.5px, transparent 1.5px);
+    background-size: 28px 28px;
   }
-  .adp-heading.adp-visible::after {
-    width: 64%;
+  #skills {
+    background-image: radial-gradient(rgba(124, 58, 237, 0.07) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+  html.dark #skills {
+    background-image: radial-gradient(rgba(168, 85, 247, 0.06) 1px, transparent 1px);
+    background-size: 22px 22px;
   }
 
 </style>
@@ -1835,28 +1831,6 @@
     </footer>
 
     <script src="script.js"></script>
-    <script id="auto-design-script">
-  /* Animated section heading underlines */
-  (function () {
-    var sels = ['#about h2', '#skills h2', '#experience h2', '#projects h2', '#contact h2'];
-    var headings = [];
-    sels.forEach(function (s) {
-      var el = document.querySelector(s);
-      if (el) { el.classList.add('adp-heading'); headings.push(el); }
-    });
-    if (!headings.length) return;
-    if (!('IntersectionObserver' in window)) {
-      headings.forEach(function (h) { h.classList.add('adp-visible'); });
-      return;
-    }
-    var obs = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('adp-visible'); obs.unobserve(e.target); }
-      });
-    }, { threshold: 0.5 });
-    headings.forEach(function (h) { obs.observe(h); });
-  })();
-
-</script>
+    <script id="auto-design-script"></script>
   </body>
 </html>
