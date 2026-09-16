@@ -214,7 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .getElementById("download-resume")
     .addEventListener("click", function () {
       const link = document.createElement("a");
-      link.href = "Ansab_Khalid_Resume.pdf";
+      link.href = "assets/Ansab_Khalid_Resume.pdf";
       link.download = "Ansab_Khalid_Resume.pdf";
       document.body.appendChild(link);
       link.click();
