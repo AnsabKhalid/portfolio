@@ -25,25 +25,38 @@
       rel="stylesheet"
     />
     <style id="auto-design-patch">
-  /* -- Dot Grid Background Texture -- */
-  #about, #contact {
-    background-image: radial-gradient(rgba(124, 58, 237, 0.09) 1.5px, transparent 1.5px);
-    background-size: 28px 28px;
-  }
-  html.dark #about, html.dark #contact {
-    background-image: radial-gradient(rgba(168, 85, 247, 0.08) 1.5px, transparent 1.5px);
-    background-size: 28px 28px;
-  }
-  #skills {
-    background-image: radial-gradient(rgba(124, 58, 237, 0.07) 1px, transparent 1px);
-    background-size: 22px 22px;
-  }
-  html.dark #skills {
-    background-image: radial-gradient(rgba(168, 85, 247, 0.06) 1px, transparent 1px);
-    background-size: 22px 22px;
-  }
-
-</style>
+      /* -- Dot Grid Background Texture -- */
+      #about,
+      #contact {
+        background-image: radial-gradient(
+          rgba(124, 58, 237, 0.09) 1.5px,
+          transparent 1.5px
+        );
+        background-size: 28px 28px;
+      }
+      html.dark #about,
+      html.dark #contact {
+        background-image: radial-gradient(
+          rgba(168, 85, 247, 0.08) 1.5px,
+          transparent 1.5px
+        );
+        background-size: 28px 28px;
+      }
+      #skills {
+        background-image: radial-gradient(
+          rgba(124, 58, 237, 0.07) 1px,
+          transparent 1px
+        );
+        background-size: 22px 22px;
+      }
+      html.dark #skills {
+        background-image: radial-gradient(
+          rgba(168, 85, 247, 0.06) 1px,
+          transparent 1px
+        );
+        background-size: 22px 22px;
+      }
+    </style>
   </head>
   <body
     class="font-sans transition-colors duration-300 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
@@ -227,10 +240,11 @@
           <p
             class="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed"
           >
-            Experienced Full Stack developer with expertise in web application
-            development and delivering high-quality, scalable solutions.
-            Passionate about leveraging modern technologies to build innovative
-            projects.
+            Full Stack Developer with 5+ years building production web
+            applications in Laravel, Vue.js/Nuxt and React. I work across
+            multi-tenant SaaS ERPs, automated data-aggregation pipelines and
+            AI-integrated products, owning features end to end from schema
+            design through API, frontend and deployment.
           </p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <button
@@ -272,18 +286,20 @@
               My Journey
             </h3>
             <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-              As a passionate full-stack developer with more than 3 years of
-              experience, I've dedicated my career to mastering Laravel and
-              Vue.js and creating robust web applications. With a strong
-              foundation in both frontend and backend development, I bring
-              comprehensive solutions to complex problems.
+              As a full-stack developer with more than 5 years of experience,
+              I've built production web applications in Laravel, Vue.js/Nuxt and
+              React &mdash; from multi-tenant SaaS ERPs to automated
+              data-aggregation pipelines and AI-integrated products. I own
+              features end to end: schema design, REST API, frontend and
+              deployment.
             </p>
             <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-              My journey began at Government College University Faisalabad where
-              I earned my Bachelor's degree in Computer Science. Since then,
-              I've worked with various technologies and frameworks, constantly
-              expanding my skillset to stay at the forefront of web development
-              trends.
+              My journey began at Government College University Faisalabad,
+              where I earned my Bachelor's degree in Computer Science. Since
+              then I've shipped projects for clients in the United States,
+              Canada and the Gulf across ERP, SaaS, logistics and marketplace
+              domains, holding quality with Pest and Laravel Dusk test suites
+              and GitHub Actions pipelines.
             </p>
             <div class="flex items-center mt-8">
               <svg
@@ -405,6 +421,37 @@
                   >https://github.com/AnsabKhalid</a
                 >
               </div>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+              <h4
+                class="text-xl font-semibold text-gray-900 dark:text-white mb-3"
+              >
+                Education
+              </h4>
+              <p class="text-gray-700 dark:text-gray-300 font-medium">
+                BS Computer Science
+              </p>
+              <p class="text-gray-600 dark:text-gray-400 text-sm">
+                Government College University, Faisalabad &middot; 2018 &ndash;
+                2022
+              </p>
+            </div>
+
+            <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+              <h4
+                class="text-xl font-semibold text-gray-900 dark:text-white mb-3"
+              >
+                Certifications
+              </h4>
+              <ul
+                class="list-disc list-inside text-gray-600 dark:text-gray-300 text-sm space-y-1"
+              >
+                <li>
+                  The Complete Software Development Bootcamp &mdash; Udemy
+                </li>
+                <li>API Creation and Testing with Postman</li>
+              </ul>
             </div>
           </div>
         </div>
@@ -773,7 +820,7 @@
             </h3>
           </div>
 
-          <!-- Aws Cloud -->
+          <!-- Cloudflare -->
           <div
             class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg text-center hover:shadow-lg transition-shadow"
           >
@@ -791,6 +838,95 @@
             </svg>
             <h3 class="font-semibold text-gray-900 dark:text-white mb-2">
               Cloudflare
+            </h3>
+          </div>
+
+          <!-- React -->
+          <div
+            class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg text-center hover:shadow-lg transition-shadow"
+          >
+            <img
+              src="https://cdn.simpleicons.org/react/61DAFB"
+              alt="React"
+              class="w-12 h-12 mx-auto mb-4"
+            />
+            <h3 class="font-semibold text-gray-900 dark:text-white mb-2">
+              React
+            </h3>
+          </div>
+
+          <!-- Node.js -->
+          <div
+            class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg text-center hover:shadow-lg transition-shadow"
+          >
+            <img
+              src="https://cdn.simpleicons.org/nodedotjs/5FA04E"
+              alt="Node.js"
+              class="w-12 h-12 mx-auto mb-4"
+            />
+            <h3 class="font-semibold text-gray-900 dark:text-white mb-2">
+              Node.js
+            </h3>
+          </div>
+
+          <!-- Express -->
+          <div
+            class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg text-center hover:shadow-lg transition-shadow"
+          >
+            <img
+              src="https://cdn.simpleicons.org/express/000000"
+              alt="Express"
+              class="w-12 h-12 mx-auto mb-4 dark:hidden"
+            />
+            <img
+              src="https://cdn.simpleicons.org/express/FFFFFF"
+              alt="Express"
+              class="w-12 h-12 mx-auto mb-4 hidden dark:block"
+            />
+            <h3 class="font-semibold text-gray-900 dark:text-white mb-2">
+              Express
+            </h3>
+          </div>
+
+          <!-- MongoDB -->
+          <div
+            class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg text-center hover:shadow-lg transition-shadow"
+          >
+            <img
+              src="https://cdn.simpleicons.org/mongodb/47A248"
+              alt="MongoDB"
+              class="w-12 h-12 mx-auto mb-4"
+            />
+            <h3 class="font-semibold text-gray-900 dark:text-white mb-2">
+              MongoDB
+            </h3>
+          </div>
+
+          <!-- TypeScript -->
+          <div
+            class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg text-center hover:shadow-lg transition-shadow"
+          >
+            <img
+              src="https://cdn.simpleicons.org/typescript/3178C6"
+              alt="TypeScript"
+              class="w-12 h-12 mx-auto mb-4"
+            />
+            <h3 class="font-semibold text-gray-900 dark:text-white mb-2">
+              TypeScript
+            </h3>
+          </div>
+
+          <!-- Docker -->
+          <div
+            class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg text-center hover:shadow-lg transition-shadow"
+          >
+            <img
+              src="https://cdn.simpleicons.org/docker/2496ED"
+              alt="Docker"
+              class="w-12 h-12 mx-auto mb-4"
+            />
+            <h3 class="font-semibold text-gray-900 dark:text-white mb-2">
+              Docker
             </h3>
           </div>
         </div>
@@ -833,20 +969,29 @@
                   class="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2"
                 >
                   <li>
-                    Laravel Developer with strong foundation in Laravel's core
-                    principles and tools
+                    Build and maintain Laravel + Vue/Nuxt applications for
+                    international clients across ERP, SaaS, logistics and
+                    marketplace domains
                   </li>
                   <li>
-                    Skilled in backend and frontend development using Laravel,
-                    Nova, Vue.js, and Nuxt.js
+                    Architect multi-tenant systems with per-tenant database
+                    isolation, role-based access control and subscription-gated
+                    feature access
                   </li>
                   <li>
-                    Specializes in API integration via Vuex and building RESTful
-                    APIs
+                    Design REST APIs and relational schemas; own queue design,
+                    scheduled jobs and third-party service integrations end to
+                    end
                   </li>
                   <li>
-                    Developed Maqware.com in-house website using Nuxt.js,
-                    delivering scalable and responsive applications
+                    Hold code quality with Pest and Laravel Dusk test suites,
+                    Pint linting and GitHub Actions pipelines running lint and
+                    tests on every push
+                  </li>
+                  <li>
+                    Work with 6 developers through sprint planning and code
+                    review in an Agile/Scrum workflow, delivering 8 client
+                    projects to production
                   </li>
                 </ul>
               </div>
@@ -875,21 +1020,27 @@
                   Software Developer
                 </p>
                 <p class="text-gray-600 dark:text-gray-300 mb-4">
-                  September 2022 – April 2023
+                  March 2021 – April 2023
                 </p>
                 <ul
                   class="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2"
                 >
                   <li>
-                    Developed new modules for desktop applications using Java
+                    Built desktop and web modules in Java and Oracle APEX for a
+                    hospital information system serving 1000+ clinical users
                   </li>
                   <li>
-                    Created detailed reports with Jasper Reports (iReport) for
-                    medical management system
+                    Designed and shipped a patient portal dashboard
+                    consolidating records, appointments and reports into a
+                    single view
                   </li>
                   <li>
-                    Designed and implemented patient portal with feature-rich
-                    dashboard on Oracle APEX
+                    Wrote complex PL/SQL procedures driving backend data
+                    processing and report generation
+                  </li>
+                  <li>
+                    Built medical and operational reports in Jasper Reports
+                    (iReport)
                   </li>
                 </ul>
               </div>
@@ -927,6 +1078,151 @@
             class="flex transition-transform duration-500 ease-in-out"
             id="projects-slider"
           >
+            <!-- Project: Banyan Capital -->
+            <div class="w-full md:w-1/2 flex-shrink-0 px-2">
+              <div
+                class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group"
+              >
+                <div class="relative overflow-hidden">
+                  <div
+                    class="w-full h-48 bg-gradient-to-br from-purple-600 to-indigo-700 flex items-center justify-center transition-transform duration-300 group-hover:scale-105"
+                  >
+                    <span
+                      class="text-white text-2xl font-bold tracking-wide px-4 text-center"
+                      >Banyan Capital</span
+                    >
+                  </div>
+                  <div
+                    class="absolute inset-0 bg-purple-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  ></div>
+                  <div
+                    class="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  >
+                    <div class="flex flex-wrap gap-2">
+                      <span
+                        class="bg-white/90 text-purple-600 text-xs px-2 py-1 rounded-full font-medium"
+                        >Laravel 12</span
+                      >
+                      <span
+                        class="bg-white/90 text-purple-600 text-xs px-2 py-1 rounded-full font-medium"
+                        >Inertia.js</span
+                      >
+                      <span
+                        class="bg-white/90 text-purple-600 text-xs px-2 py-1 rounded-full font-medium"
+                        >Vue 3</span
+                      >
+                      <span
+                        class="bg-white/90 text-purple-600 text-xs px-2 py-1 rounded-full font-medium"
+                        >TypeScript</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="p-6">
+                  <span
+                    class="inline-block bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 text-xs px-3 py-1 rounded-full mb-3 font-medium"
+                    >Lead-Generation CRM</span
+                  >
+                  <h3
+                    class="text-xl font-semibold text-gray-900 dark:text-white mb-2"
+                  >
+                    Banyan Capital
+                  </h3>
+                  <p
+                    class="text-gray-600 dark:text-gray-300 text-sm mb-4 leading-relaxed"
+                  >
+                    An automated pipeline that aggregates public obituary listings across 8 Florida counties and enriches each record with property-ownership, probate-court and commercial-property data to qualify real-estate leads. Enrichment runs as queued jobs on a schedule with automatic retries and run-level audit logging, plus Telnyx SMS and voice for lead outreach.
+                  </p>
+                  <span
+                    class="text-gray-500 dark:text-gray-400 font-medium text-sm inline-flex items-center"
+                  >
+                    Private client project
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project: ShiftERP -->
+            <div class="w-full md:w-1/2 flex-shrink-0 px-2">
+              <div
+                class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group"
+              >
+                <div class="relative overflow-hidden">
+                  <div
+                    class="w-full h-48 bg-gradient-to-br from-indigo-600 to-purple-700 flex items-center justify-center transition-transform duration-300 group-hover:scale-105"
+                  >
+                    <span
+                      class="text-white text-2xl font-bold tracking-wide px-4 text-center"
+                      >ShiftERP</span
+                    >
+                  </div>
+                  <div
+                    class="absolute inset-0 bg-purple-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  ></div>
+                  <div
+                    class="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  >
+                    <div class="flex flex-wrap gap-2">
+                      <span
+                        class="bg-white/90 text-purple-600 text-xs px-2 py-1 rounded-full font-medium"
+                        >Laravel</span
+                      >
+                      <span
+                        class="bg-white/90 text-purple-600 text-xs px-2 py-1 rounded-full font-medium"
+                        >React</span
+                      >
+                      <span
+                        class="bg-white/90 text-purple-600 text-xs px-2 py-1 rounded-full font-medium"
+                        >AWS</span
+                      >
+                      <span
+                        class="bg-white/90 text-purple-600 text-xs px-2 py-1 rounded-full font-medium"
+                        >MySQL</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="p-6">
+                  <span
+                    class="inline-block bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 text-xs px-3 py-1 rounded-full mb-3 font-medium"
+                    >Multi-Tenant SaaS ERP</span
+                  >
+                  <h3
+                    class="text-xl font-semibold text-gray-900 dark:text-white mb-2"
+                  >
+                    ShiftERP
+                  </h3>
+                  <p
+                    class="text-gray-600 dark:text-gray-300 text-sm mb-4 leading-relaxed"
+                  >
+                    A SaaS ERP for co-packers and supply-chain teams built on a database-per-tenant architecture, giving each company fully isolated data storage with super-admin controlled provisioning. Subscription-gated modules span Customer Management, Inventory, Smart Scheduling, Accounting, Supply Chain and Reporting, deployed and operated on AWS.
+                  </p>
+                  <a
+                    href="https://shifterp.com/"
+                    target="_blank"
+                    class="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium inline-flex items-center"
+                  >
+                    Visit Website
+                    <svg
+                      class="ml-2 w-4 h-4"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M7 7h10v10" />
+                      <path d="M7 17 17 7" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
             <!-- Project 1: Service Owl -->
             <div class="w-full md:w-1/2 flex-shrink-0 px-2">
               <div
